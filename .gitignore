@@ -1,4 +1,5 @@
 *.pkl
+poetry.lock
 
 ### macOS ###
 # General
