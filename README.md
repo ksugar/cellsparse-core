@@ -12,6 +12,8 @@ conda create -n cellsparse -y python=3.11
 conda activate cellsparse
 ```
 
+If you're using a computer with CUDA-compatible GPU, install `cudatoolkit`.
+
 ```bash
 conda install -y -c conda-forge cudatoolkit=11.8
 ```
@@ -42,7 +44,9 @@ python -m pip install "cellsparse[tensorflow-macos] @ git+https://github.com/ksu
 python -m pip install git+https://github.com/ksugar/cellsparse-core.git
 ```
 
-### Work with Tensorflow in Conda
+### Work with Tensorflow in Conda on a computer with CUDA-compatible GPU
+
+This section is required only if you're using a computer with CUDA-compatible GPU.
 
 #### Update LD_LIBRARY_PATH
 
