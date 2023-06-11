@@ -18,7 +18,7 @@ dill = "^0.3.6"
 elephant = { git = "https://github.com/elephant-track/elephant-server.git", branch = "sparse",  subdirectory = "elephant-core" }
 
 [tool.poetry.extras]
-tensorflow = ["tensorflow", "tensorflow-metal"]
+tensorflow = ["tensorflow"]
 tensorflow-macos = ["tensorflow-macos", "tensorflow-metal"]
 
 [build-system]
