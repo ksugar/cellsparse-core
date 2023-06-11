@@ -27,13 +27,13 @@ python -m pip install -U pip
 #### Linux, Windows, WSL2 with tensorflow
 
 ```bash
-python -m pip install "cellsparse-core[tensorflow] git+https://github.com/ksugar/cellsparse-core.git"
+python -m pip install "cellsparse[tensorflow] @ git+https://github.com/ksugar/cellsparse-core.git"
 ```
 
 #### Mac OSX with tensorflow
 
 ```bash
-python -m pip install "cellsparse-core[tensorflow-macosx] git+https://github.com/ksugar/cellsparse-core.git"
+python -m pip install "cellsparse[tensorflow-macos] @ git+https://github.com/ksugar/cellsparse-core.git"
 ```
 
 #### Install tensorflow independently
