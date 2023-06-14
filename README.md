@@ -1,50 +1,64 @@
 # Cellsparse
 
+This is a part of the following paper. Please [cite](#citation) it when you use this project.
+
+- Sugawara, K. [*Training deep learning models for cell image segmentation with sparse annotations.*](https://biorxiv.org/cgi/content/short/2023.06.13.544786v1) bioRxiv 2023. doi:10.1101/2023.06.13.544786
+
 ## Install
 
-### Create a Conda environment
+### Mac OSX
 
 ```bash
-conda create -n cellsparse -y python=3.11
-```
-
-```bash
-conda activate cellsparse
-```
-
-If you're using a computer with CUDA-compatible GPU, install `cudatoolkit`.
-
-```bash
-conda install -y -c conda-forge cudatoolkit=11.8
-```
-
-### Update Pip
-
-```bash
+conda create -n cellsparse-core -y python=3.11
+conda activate cellsparse-core
 python -m pip install -U pip
-```
-
-### Install Cellsparse and dependencies
-
-#### Linux, Windows, WSL2 with tensorflow
-
-```bash
-python -m pip install "cellsparse[tensorflow] @ git+https://github.com/ksugar/cellsparse-core.git"
-```
-
-#### Mac OSX with tensorflow
-
-```bash
 python -m pip install "cellsparse[tensorflow-macos] @ git+https://github.com/ksugar/cellsparse-core.git"
 ```
 
-#### Install tensorflow independently
+### Windows Native with CUDA-compatible GPU
+
+Microsoft Visual C++ 14.0 or greater is required.  
+Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 ```bash
+conda create -n cellsparse-core -y python=3.10
+conda activate cellsparse-core
+python -m pip install -U pip
+conda install -y -c conda-forge cudatoolkit=11.3 cudnn=8.1.0
+python -m pip install "tensorflow<2.11"
+python -m pip install git+https://github.com/ksugar/stardist-sparse.git
+set PYTHONUTF8=1
 python -m pip install git+https://github.com/ksugar/cellsparse-core.git
+set PYTHONUTF8=0
+python -m pip uninstall -y torch torchvision
+python -m pip install --no-deps torch torchvision --index-url https://download.pytorch.org/whl/cu113
 ```
 
-### Work with Tensorflow in Conda on a computer with CUDA-compatible GPU
+### Windows Native, Linux, WSL2 (CPU)
+
+Please note that training with CPU is very slow.
+
+On Windows Native, Microsoft Visual C++ 14.0 or greater is required.  
+Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+```bash
+conda create -n cellsparse-core -y python=3.11
+conda activate cellsparse-core
+python -m pip install -U pip
+python -m pip install "cellsparse[tensorflow] @ git+https://github.com/ksugar/cellsparse-core.git"
+```
+
+### Linux or WSL2 with CUDA-compatible GPU
+
+```bash
+conda create -n cellsparse-core -y python=3.11
+conda activate cellsparse-core
+python -m pip install -U pip
+conda install -y -c conda-forge cudatoolkit=11.8
+python -m pip install "cellsparse[tensorflow] @ git+https://github.com/ksugar/cellsparse-core.git"
+```
+
+The following steps are required only if you're using Linux or WSL2 with CUDA-compatible GPU.
 
 This section is required only if you're using a computer with CUDA-compatible GPU.
 
@@ -62,10 +76,11 @@ echo 'unset CUDNN_PATH' >> $CONDA_PREFIX/etc/conda/deactivate.d/env_vars.sh
 export OLD_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 ```
 
-Linux and WSL2 are currently only supported. See details below.
+If you are using WSL2, `LD_LIBRARY_PATH` will need to be updated as follows.
 
-https://www.tensorflow.org/install/pip
-
+```bash
+export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
+```
 
 #### Update `nvidia-cudnn-cu11`
 
@@ -92,7 +107,7 @@ conda install -y -c nvidia cuda-nvcc=11.8
 
 ```bash
 conda deactivate
-conda activate cellsparse
+conda activate cellsparse-core
 ```
 
 ### (Optional) Install Jupyter
@@ -103,4 +118,23 @@ python -m pip install jupyter
 
 ```bash
 jupyter notebook --no-browser
+```
+
+## Citation
+
+Please cite my paper on [bioRxiv](https://biorxiv.org/cgi/content/short/2023.06.13.544786v1).
+
+```.bib
+@article {Sugawara2023.06.13.544786,
+	author = {Ko Sugawara},
+	title = {Training deep learning models for cell image segmentation with sparse annotations},
+	elocation-id = {2023.06.13.544786},
+	year = {2023},
+	doi = {10.1101/2023.06.13.544786},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Deep learning is becoming more prominent in cell image analysis. However, collecting the annotated data required to train efficient deep-learning models remains a major obstacle. I demonstrate that functional performance can be achieved even with sparsely annotated data. Furthermore, I show that the selection of sparse cell annotations significantly impacts performance. I modified Cellpose and StarDist to enable training with sparsely annotated data and evaluated them in conjunction with ELEPHANT, a cell tracking algorithm that internally uses U-Net based cell segmentation. These results illustrate that sparse annotation is a generally effective strategy in deep learning-based cell image segmentation. Finally, I demonstrate that with the help of the Segment Anything Model (SAM), it is feasible to build an effective deep learning model of cell image segmentation from scratch just in a few minutes.Competing Interest StatementKS is employed part-time by LPIXEL Inc.},
+	URL = {https://www.biorxiv.org/content/early/2023/06/13/2023.06.13.544786},
+	eprint = {https://www.biorxiv.org/content/early/2023/06/13/2023.06.13.544786.full.pdf},
+	journal = {bioRxiv}
+}
 ```
