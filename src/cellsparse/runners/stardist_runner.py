@@ -89,6 +89,12 @@ class StarDistRunner(BaseRunner):
         x = x + sig * np.random.normal(0, 1, x.shape)
         return x, y
 
+    def _init_model(self, description):
+        model = StarDist2D(self.config, name=description, basedir=self.basedir)
+        model.keras_model.save_weights(
+            str(model.logdir / model.config.train_checkpoint_last)
+        )
+
     def _train(self, x_trn, y_trn, x_val, y_val, description):
         model = StarDist2D(self.config, name=description, basedir=self.basedir)
         if (model.logdir / self.config.train_checkpoint_last).exists():

@@ -17,6 +17,10 @@ class BaseRunner(ABC):
         pass
 
     @abstractmethod
+    def _init_model(self, description):
+        pass
+
+    @abstractmethod
     def _train(self, x_trn, y_trn, x_val, y_val, description):
         pass
 

@@ -190,6 +190,16 @@ class ElephantRunner(BaseRunner):
     def name(self):
         return "ELEPHANT"
 
+    def _init_model(self, description):
+        filename_stem = f"{self.backbone}_{description}"
+        model_path = Path(self.model_dir) / f"{filename_stem}.pth"
+        model = UNet.three_class_segmentation(
+            device=self.device,
+            is_3d=self.is_3d,
+        )
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(model.state_dict(), model_path)
+
     def _train(self, x_trn, y_trn, x_val, y_val, description):
         is_3d = self.is_3d and x_trn[0].ndim == 3
         Path(self.model_dir).mkdir(exist_ok=True, parents=True)

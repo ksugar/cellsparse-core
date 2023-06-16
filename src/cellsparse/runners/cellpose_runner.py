@@ -39,6 +39,14 @@ class CellposeRunner(BaseRunner):
     def name(self):
         return "Cellpose"
 
+    def _init_model(self, description):
+        model_path = os.path.join(self.save_path, "models", description)
+        model = models.CellposeModel(
+            gpu=self.use_GPU,
+            model_type=self.initial_model,
+        )
+        model.net.save_model(model_path)
+
     def _train(self, x_trn, y_trn, x_val, y_val, description):
         model_path = os.path.join(self.save_path, "models", description)
         if os.path.exists(model_path):
